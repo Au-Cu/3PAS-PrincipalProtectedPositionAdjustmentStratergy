@@ -52,7 +52,7 @@ $$
 
 $$
 market_n^* = \frac{total_n - protected}{tolerance\%}
-= \frac{total_{n-1} + market_{n-1} \times change_n - protected}{tolerance\%}
+= \frac{total_{n-1} + market_{n-1} \times change_{n-1} - protected}{tolerance\%}
 $$
 
 ---
