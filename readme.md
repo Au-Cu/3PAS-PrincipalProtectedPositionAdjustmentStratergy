@@ -2,7 +2,7 @@
 
 | 变量名 | 符号 | 备注 |
 |--------|------|------|
-| 第n天开盘时的总资产 | $total_n$ | 单位：元；初始本金：$total_1$ |
+| 第n天开盘时的总资产 | $total_n$ | 单位：元；初始本金： $total_1$ |
 | 保护本金 | $protected$ | 单位：元 |
 | 单日相对亏损容忍度 | $tolerance\%$ |  |
 | 第n天绝对亏损容忍度 |  | $total_n-protected$；单位：元 |
@@ -18,10 +18,10 @@
 
 ## 核心思想
 
-基于上一交易日股价变化的最新情况动态调整仓位，使得当天的最大回撤尽可能不亏损到保护本金 $protected$，即第n天至多允许 $\min(tolerance\%,limit\%)$ 的相对回撤，或 $\min(protected,market_n \times limit\%)$ 元的绝对回撤。$market_n^*$ 始终满足  
+基于上一交易日股价变化的最新情况动态调整仓位，使得当天的最大回撤尽可能不亏损到保护本金 $protected$，即第n天至多允许 $\min(tolerance\%,limit\%)$ 的相对回撤，或 $\min\left(protected,market_n \times limit\%\right)$ 元的绝对回撤。$market_n^*$ 始终满足  
 
 $$
-market_n^* = \min\left(\frac{total_n - protected}{tolerance\%}, \; total_n \right)
+market_n^* = \min\left(\frac{total_n - protected}{tolerance\%}, total_n \right)
 $$
 
 ---
