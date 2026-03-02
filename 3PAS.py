@@ -63,7 +63,7 @@ targets = {'上证50':sz50,
 def backtest_stock(ts_code, start, end, tol):
     try:
         df = pro.daily(ts_code=ts_code, start_date=start, end_date=end)
-        time.sleep(1.2)
+        #time.sleep(1.2)
 
         if df is None or len(df) < 30:
             return None, None, None
@@ -131,16 +131,17 @@ def batch_backtest(index, index_name, start, end, tolerance):
     aggr_total = []
     aggr_market = []
 
-    for stock in tqdm(index, desc=index_name):
-        for i, tol in enumerate(tolerance):
+    for i, tol in enumerate(tolerance):
+        strat_total.append([])
+        strat_market.append([])
+        for stock in tqdm(index, desc=index_name):
             df, s_total, s_market = backtest_stock(stock, start, end, tol)
 
             if df is None:
                 continue
-            strat_total.append([])
+            
             strat_total[i].append(s_total)
-            strat_market.append([])
-            strat_market.append(s_market)
+            strat_market[i].append(s_market)
 
             # 保守（只投 total_0 - absol）
             c_total, c_market = benchmark(df, total_0 - protected, protected)
@@ -152,9 +153,9 @@ def batch_backtest(index, index_name, start, end, tolerance):
             aggr_total.append(a_total)
             aggr_market.append(a_market)
 
-    # 聚合
-    strat_total = pd.concat(strat_total, axis=1).mean(axis=1)
-    strat_market = pd.concat(strat_market, axis=1).mean(axis=1)
+        # 聚合
+        strat_total[i] = pd.concat(strat_total[i], axis=1).mean(axis=1)
+        strat_market[i] = pd.concat(strat_market[i], axis=1).mean(axis=1)
 
     cons_total = pd.concat(cons_total, axis=1).mean(axis=1)
     cons_market = pd.concat(cons_market, axis=1).mean(axis=1)
