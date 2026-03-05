@@ -38,22 +38,22 @@
 
 | 变量名 | 符号 | 备注 |
 |:---|:---:|:---|
-| 第{n}天开盘时的总资产 | $total_n$ | 单位：元；初始本金： $total_1$ |
+| 第 $n$ 天开盘时的总资产 | $total_n$ | 单位：元；初始本金： $total_1$ |
 | 保护本金 | $protected$ | 单位：元 |
 | 单日相对亏损容忍度 | $tolerance$ |  |
-| 第{n}天绝对亏损容忍度 | $total_n-protected$ | 单位：元；亏损容忍本金：$total_1-protected$ |
-| 第{n}天开盘时调仓前的持仓市值 | $market_n$ | 单位：元 |
-| 第{n}天开盘时调仓后的持仓市值 | $market_n^*$ | 单位：元 |
-| 第{n}天开盘时的空仓资金 | $total_n-market_n$ | 单位：元 |
-| 第{n}天的股票涨跌幅 | $change_n$ |  |
+| 第 $n$ 天绝对亏损容忍度 | $total_n - protected$ | 单位：元；亏损容忍本金：  $total_1 - protected$ |
+| 第 $n$ 天开盘时调仓前的持仓市值 | $market_n$ | 单位：元 |
+| 第 $n$ 天开盘时调仓后的持仓市值 | $market_n^*$ | 单位：元 |
+| 第 $n$ 天开盘时的空仓资金 | $total_n-market_n$ | 单位：元 |
+| 第 $n$ 天的股票涨跌幅 | $change_n$ |  |
 | 股票涨跌停幅度 | $limit$ |  |
 
 ---
 
 ## 基本原理
 
-策略基于上一交易日股价变化况动态调整仓位，根据策略给出的当日目标持仓市值进行买卖操作调整，使得即使股票出现最大容忍跌幅，账户资产仍不会跌破保护本金 $protected$ 。即第{n}天至多可能发生 $\min(tolerance,limit)$ 的相对回撤，或 $\min(protected ,market_n \times limit)$ 元的绝对回撤。 
-**第{n}天的目标持仓市值 $market_n^*$ 由以下公式给出：**
+策略基于上一交易日股价变化况动态调整仓位，根据策略给出的当日目标持仓市值进行买卖操作调整，使得即使股票出现最大容忍跌幅，账户资产仍不会跌破保护本金 $protected$ 。即第 $n$ 天至多可能发生 $\min(tolerance,limit)$ 的相对回撤，或 $\min(protected ,market_n \times limit)$ 元的绝对回撤。 
+**第 $n$ 天的目标持仓市值 $market_n^*$ 由以下公式给出：**
 
 $$
 market_n^* = \min\left(\frac{total_n - protected}{tolerance}, total_n \right)
@@ -73,7 +73,7 @@ $$
 market_1 = \frac{total_1 - absol}{tolerance}
 $$  
 
-### 第n天调仓
+### 第 $n$ 天调仓
 
 #### 止损条件
 若：
@@ -84,7 +84,7 @@ $$
 
 则**立即终止策略，清仓离场**；否则，按照以下公式，通过买卖操作将持仓市值调整到目标持仓市值：  
 
-第n天开盘时的目标持仓市值为：  
+第 $n$ 天开盘时的目标持仓市值为：  
 
 $$
 market_n^* = \frac{total_n - protected}{tolerance}
