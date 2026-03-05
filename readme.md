@@ -250,4 +250,4 @@ pip install -r requirements.txt
 ---
 
 ## 项目负责人
-([Au-Cu](https://github.com/Au-Cu))
+[Au-Cu](https://github.com/Au-Cu)
