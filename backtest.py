@@ -222,16 +222,29 @@ def batch_backtest(index, index_name, start, end, tolerance, trend):
                                       win_rate(a_total)])
                 
     ## 按时间对齐后取均值
-        strat_total[i] = pd.concat(strat_total[i], axis=1).mean(axis=1)
-        strat_market[i] = pd.concat(strat_market[i], axis=1).mean(axis=1)
-        strat_position[i] = np.array(strat_market[i]) / np.array(strat_total[i])
-        
-    cons_total = pd.concat(cons_total, axis=1).mean(axis=1)
-    cons_market = pd.concat(cons_market, axis=1).mean(axis=1)
+        try:
 
-    aggr_total = pd.concat(aggr_total, axis=1).mean(axis=1)
-    aggr_market = pd.concat(aggr_market, axis=1).mean(axis=1)
-   
+            strat_total[i] = pd.concat(strat_total[i], axis=1).mean(axis=1)
+            strat_market[i] = pd.concat(strat_market[i], axis=1).mean(axis=1)
+
+        except ValueError:
+            print('调用API接口频率过高，请等待一分钟后重试，或尝试切换网络')
+            raise
+
+        strat_position[i] = np.array(strat_market[i]) / np.array(strat_total[i])
+    
+    try:
+        
+        cons_total = pd.concat(cons_total, axis=1).mean(axis=1)
+        cons_market = pd.concat(cons_market, axis=1).mean(axis=1)
+
+        aggr_total = pd.concat(aggr_total, axis=1).mean(axis=1)
+        aggr_market = pd.concat(aggr_market, axis=1).mean(axis=1)
+
+    except ValueError:
+        print('调用API接口频率过高，请等待一分钟后重试，或尝试切换网络')
+        raise
+
     ## 计算基准仓位
     cons_position = np.array(cons_market) / np.array(cons_total)
     aggr_position = np.array(aggr_market) / np.array(aggr_total)
